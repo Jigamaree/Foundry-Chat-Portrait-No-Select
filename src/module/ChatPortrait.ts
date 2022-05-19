@@ -1514,55 +1514,6 @@ export class ChatPortrait {
   //   });
   // }
 
-  /**
-   * Returns a list of selected (or owned, if no token is selected)
-   * note: ex getSelectedOrOwnedToken
-   */
-  static getFirstSelectedToken = function (): Token | null {
-    try {
-      canvas;
-    } catch (e) {
-      // Canvas not ready
-      return null;
-    }
-    // Get controlled token
-    let token: Token | null = null;
-    const controlled: Token[] = <Token[]>canvas.tokens?.controlled;
-    // Do nothing if multiple tokens are selected
-    if (controlled.length && controlled.length > 1) {
-      token = <Token>controlled[0];
-    }
-    // If exactly one token is selected, take that
-    return token;
-  };
-
-  /**
-   * Returns a list of selected (or owned, if no token is selected)
-   * note: ex getSelectedOrOwnedToken
-   */
-  static getFirstPlayerToken = function (): Token | null {
-    try {
-      canvas;
-    } catch (e) {
-      // Canvas not ready
-      return null;
-    }
-    // Get controlled token
-    let token: Token | null = ChatPortrait.getFirstSelectedToken();
-    if (!token) {
-      //if(!controlled.length || controlled.length == 0 ){
-      // If no token is selected use the token of the users character
-      //@ts-ignore
-      token = canvas.tokens.placeables.find((token: Token) => token.data._id === game.user?.character?.data?._id);
-      //}
-      // If no token is selected use the first owned token of the users character you found and is not GM
-      if (!token && !game.user?.isGM) {
-        token = <Token>canvas.tokens?.ownedTokens[0];
-      }
-    }
-    return token;
-  };
-
   static isSpeakerGM = function (message) {
     if (message.user) {
       let user = game.users?.get(message.user);
